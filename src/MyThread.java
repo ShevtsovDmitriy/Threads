@@ -2,35 +2,33 @@ public class MyThread {
 
     private Multiplier[] multipliers; // = new Multiplier[Runtime.getRuntime().availableProcessors()];
 
-    private int[][] matrix1, matrix2;
-
     public MyThread(int[][] matrix1, int[][] matrix2) {
-        this.matrix1 = matrix1;
-        this.matrix2 = matrix2;
+        Matrix.getInstance().setMatrix(matrix1, matrix2);
     }
 
     public void go(){
-        if (matrix1.length != matrix2[0].length)
+        if (Matrix.getInstance().getMatrix1()[0].length != Matrix.getInstance().getMatrix2().length)
         {
             System.out.print("Размеры матриц заданы неверно");
         }
         else
         {
-            int size = matrix1.length * matrix2[0].length;
+            int size = Matrix.getInstance().getMatrix1().length * Matrix.getInstance().getMatrix2()[0].length;
             int currentThread = 0;
             multipliers = new Multiplier[size];
-            for (int i = 0; i < matrix1.length; i++) {
-                for (int j = 0; j < matrix2[i].length; j++) {
+            for (int i = 0; i < Matrix.getInstance().getMatrix1().length; i++) {
+                for (int j = 0; j < Matrix.getInstance().getMatrix2()[i].length; j++) {
                     multipliers[currentThread] = new Multiplier(i, j);
+                    multipliers[currentThread++].run();
                 }
             }
         }
     }
 
     public int[][] getResult(){
-        int[][] result = new int[matrix1.length][matrix2[0].length];
+        int[][] result = new int[Matrix.getInstance().getMatrix1().length][Matrix.getInstance().getMatrix2()[0].length];
         for (Multiplier multiplier : multipliers) {
-            result[multiplier.i][multiplier.j] = multiplier.getResult();
+            result[multiplier.getI()][multiplier.getJ()] = multiplier.getResult();
         }
         return result;
     }

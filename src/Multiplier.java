@@ -1,7 +1,7 @@
 public class Multiplier implements Runnable {
 
     private int result;
-    int i, j;
+    private int i, j;
     Matrix matrix;
 
     public Multiplier(int i, int j) {
@@ -25,7 +25,7 @@ public class Multiplier implements Runnable {
     public void run() {
         matrix = Matrix.getInstance();
         int summ = 0;
-        for (int k = 0; k < matrix.getMatrix1().length; k++) {
+        for (int k = 0; k < matrix.getMatrix1()[0].length; k++) {
             summ += matrix.getMatrix1()[i][k] * matrix.getMatrix2()[k][j];
         }
         result = summ;
